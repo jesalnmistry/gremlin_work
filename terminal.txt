@@ -1,0 +1,179 @@
+         \,,,/
+         (o o)
+-----oOOo-(_)-oOOo-----
+gremlin> g = new TinkerGraph()				//new graph is created
+==>tinkergraph[vertices:0 edges:0]
+gremlin> g.loadGraphML('data/group20.xml')        	//xml file creates graph by us having vertex and edge details in xml file
+==>null
+gremlin> g.V.name					//list of names of all verteices
+==>Jesal
+==>Aamir
+==>Neville
+==>IEEE Papers
+==>Wiki Dump
+==>Gremlin
+==>Kapil
+==>Algo
+==>Math Model
+gremlin> g.E						//list of all edges
+==>e[1003][1-knows->3]
+==>e[1004][1-knows->4]
+==>e[1002][1-knows->2]
+==>e[2004][2-knows->4]
+==>e[2003][2-knows->3]
+==>e[40004][4-working on->8]
+==>e[3004][3-knows->4]
+==>e[4002][4-knows->2]
+==>e[4001][4-knows->1]
+==>e[20002][2-working on->6]
+==>e[20005][2-working on->9]
+==>e[20004][2-working on->8]
+==>e[30005][3-working on->9]
+==>e[94][9-guides->4]
+==>e[93][9-guides->3]
+==>e[92][9-guides->2]
+==>e[91][9-guides->1]
+==>e[30003][3-working on->7]
+==>e[30004][3-working on->8]
+==>e[10001][1-working on->5]
+==>e[10005][1-working on->9]
+==>e[3002][3-knows->2]
+==>e[3001][3-knows->1]
+==>e[10004][1-working on->8]
+==>e[4004][4-knows->3]
+==>e[2001][2-knows->1]
+gremlin> v=g.v(1)					//assign v to one vetex eg v(1)
+==>v[1]
+gremlin> v.name						//name of that vertex
+==>Neville
+gremlin> v.age						//age of that vertex where age n name are attributes of vertex
+==>20
+gremlin> v.outE						//outgoing edges of that vertex with labels having id,source,label,destination
+==>e[10001][1-working on->5]
+==>e[1003][1-knows->3]
+==>e[1004][1-knows->4]
+==>e[1002][1-knows->2]
+==>e[10005][1-working on->9]
+==>e[10004][1-working on->8]
+gremlin> v.out('knows').name				//checks the edge with label knows and .name gives the name of that vertex
+==>Jesal
+==>Kapil
+==>Aamir
+gremlin> v.out('knows').filter{it.age > 21}.name	//filter is used as condition for the vertex
+==>Kapil
+==>Aamir
+gremlin> v.out('working on').name			//v.out('xyz') checks for the label of edge
+==>Gremlin						//it shows the vertex working on following vertices
+==>Algo
+==>Math Model
+gremlin> v.outE.inV					//basic traversal v->out edges->vertex	
+==>v[5]
+==>v[3]
+==>v[4] 
+==>v[2]
+==>v[9]
+==>v[8]
+gremlin> v.outE.inV.name				//name of that vertex
+==>Gremlin
+==>Jesal
+==>Kapil
+==>Aamir
+==>Algo
+==>Math Model
+gremlin> v.outE.filter{it.age != null}.name
+gremlin> v.outE.inV.filter{it.age != null}.name		//selects vertices with age not null
+==>Jesal
+==>Kapil
+==>Aamir
+gremlin> v.outE.inV.outE				//traversal to 2nd level
+==>e[30005][3-working on->9]
+==>e[3002][3-knows->2]
+==>e[3001][3-knows->1]
+==>e[3004][3-knows->4]
+==>e[30003][3-working on->7]
+==>e[30004][3-working on->8]
+==>e[40004][4-working on->8]
+==>e[4004][4-knows->3]
+==>e[4002][4-knows->2]
+==>e[4001][4-knows->1]
+==>e[20002][2-working on->6]
+==>e[20005][2-working on->9]
+==>e[20004][2-working on->8]
+==>e[2004][2-knows->4]
+==>e[2003][2-knows->3]
+==>e[2001][2-knows->1]
+==>e[94][9-guides->4]
+==>e[93][9-guides->3]
+==>e[92][9-guides->2]
+==>e[91][9-guides->1]
+gremlin> v.out.out					//traversal by juming vetex to vertex i.e skipping edges which can work faster
+==>v[9]
+==>v[2]
+==>v[1]
+==>v[4]
+==>v[7]
+==>v[8]
+==>v[8]
+==>v[3]
+==>v[2]
+==>v[1]
+==>v[6]
+==>v[9]
+==>v[8]
+==>v[4]
+==>v[3]
+==>v[1]
+==>v[4]
+==>v[3]
+==>v[2]
+==>v[1]
+gremlin> v.out.out.name
+==>Algo
+==>Aamir
+==>Neville
+==>Kapil
+==>IEEE Papers
+==>Math Model
+==>Math Model
+==>Jesal
+==>Aamir
+==>Neville
+==>Wiki Dump
+==>Algo
+==>Math Model
+==>Kapil
+==>Jesal
+==>Neville
+==>Kapil
+==>Jesal
+==>Aamir
+==>Neville
+gremlin> v = g.addVertex()				//dynamically adding/deleting vetex can be done
+==>v[0]
+gremlin> v.name='Infinitely Beta'
+==>Infinitely Beta
+gremlin> v.age=5
+==>5
+gremlin> g.V
+==>v[3]
+==>v[2]
+==>v[1]
+==>v[0]
+==>v[7]
+==>v[6]
+==>v[5]
+==>v[4]
+==>v[9]
+==>v[8]
+gremlin> g.V.name
+==>Jesal
+==>Aamir
+==>Neville
+==>Infinitely Beta
+==>IEEE Papers
+==>Wiki Dump
+==>Gremlin
+==>Kapil
+==>Algo
+==>Math Model
+
